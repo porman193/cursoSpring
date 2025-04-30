@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.example.and'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 java {
 	toolchain {
@@ -25,6 +25,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql:42.7.5'
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+	implementation'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 }
 
 tasks.named('test') {
