@@ -13,8 +13,6 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private ProductoRepository productoRepository;
 
     public List<Product> getAll() {
         return productRepository.getAll();
@@ -34,7 +32,7 @@ public class ProductService {
 
     public boolean delete(int productId) {
         return  getProduct(productId).map(product -> {
-            productoRepository.delete(productId);
+            productRepository.delete(productId);
             return true;
         }).orElse(false);
     }

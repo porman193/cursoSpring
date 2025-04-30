@@ -3,6 +3,7 @@ package com.example.and.market.persistence.entity;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,10 +17,10 @@ public class Compra {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_cliente", nullable = false ,updatable = false,insertable = false)
-    private Cliente idCliente;
+    private Cliente cliente;
 
     @Column(name = "fecha")
-    private Instant fecha;
+    private LocalDateTime fecha;
 
     @Column(name = "medio_pago", length = Integer.MAX_VALUE)
     private String medioPago;
@@ -30,7 +31,10 @@ public class Compra {
     @Column(name = "estado", length = Integer.MAX_VALUE)
     private String estado;
 
-    @OneToMany(mappedBy = "idCompra")
+    @Column(name = "id_cliente", nullable = false)
+    private String idCliente;
+
+    @OneToMany(mappedBy = "compra",cascade = {CascadeType.ALL})
     private List<ComprasProducto> comprasProductos;
 
     public Integer getId() {
@@ -41,19 +45,19 @@ public class Compra {
         this.id = id;
     }
 
-    public Cliente getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(Cliente idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Instant getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Instant fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
@@ -81,4 +85,19 @@ public class Compra {
         this.estado = estado;
     }
 
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public List<ComprasProducto> getComprasProductos() {
+        return comprasProductos;
+    }
+
+    public void setComprasProductos(List<ComprasProducto> comprasProductos) {
+        this.comprasProductos = comprasProductos;
+    }
 }

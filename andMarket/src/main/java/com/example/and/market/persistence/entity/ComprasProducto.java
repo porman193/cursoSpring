@@ -14,7 +14,7 @@ public class ComprasProducto {
     @MapsId("idCompra")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_compra", nullable = false,insertable = false, updatable = false)
-    private Compra idCompra;
+    private Compra compra;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_producto", nullable = false,insertable = false, updatable = false)
@@ -37,12 +37,12 @@ public class ComprasProducto {
         this.id = id;
     }
 
-    public Compra getIdCompra() {
-        return idCompra;
+    public Compra getCompra() {
+        return compra;
     }
 
-    public void setIdCompra(Compra idCompra) {
-        this.idCompra = idCompra;
+    public void setCompra(Compra compra) {
+        this.compra = compra;
     }
 
     public Integer getCantidad() {
@@ -69,4 +69,11 @@ public class ComprasProducto {
         this.estado = estado;
     }
 
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
 }
