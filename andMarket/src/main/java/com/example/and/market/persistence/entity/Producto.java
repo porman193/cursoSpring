@@ -8,17 +8,19 @@ import java.math.BigDecimal;
 @Table(name = "productos")
 public class Producto {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "productos_id_gen")
-    @SequenceGenerator(name = "productos_id_gen", sequenceName = "productos_id_producto_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto", nullable = false)
     private Integer id;
 
     @Column(name = "nombre", length = 45)
     private String nombre;
 
+    @Column(name = "id_categoria", nullable = false)
+    private Integer idCategoria;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_categoria", nullable = false,insertable = false, updatable = false)
-    private Categoria idCategoria;
+    @JoinColumn(name = "id_categoria",insertable = false, updatable = false)
+    private Categoria categoria;
 
     @Column(name = "codigo_barras", length = 150)
     private String codigoBarras;
@@ -48,11 +50,11 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public Categoria getIdCategoria() {
+    public int getIdCategoria() {
         return idCategoria;
     }
 
-    public void setIdCategoria(Categoria idCategoria) {
+    public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
     }
 
@@ -86,6 +88,14 @@ public class Producto {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
 }

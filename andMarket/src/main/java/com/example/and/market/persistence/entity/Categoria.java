@@ -8,16 +8,15 @@ import java.util.List;
 @Table(name = "categorias")
 public class Categoria {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categorias_id_gen")
-    @SequenceGenerator(name = "categorias_id_gen", sequenceName = "categorias_id_categoria_seq", allocationSize = 1)
-    @Column(name = "id_categoria", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_categoria")
     private Integer id;
 
-    @Column(name = "descripcion", nullable = false, length = 45)
+    @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "estado", nullable = false)
-    private Boolean estado = false;
+    @Column(name = "estado")
+    private Boolean estado ;
 
     @OneToMany(mappedBy = "idCategoria")
     private List<Producto> productos;
@@ -48,4 +47,11 @@ public class Categoria {
         this.estado = estado;
     }
 
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
 }
