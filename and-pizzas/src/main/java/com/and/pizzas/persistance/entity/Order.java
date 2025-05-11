@@ -1,13 +1,20 @@
 package com.and.pizzas.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "pizza_order")
-public class Oder {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order", nullable = false)
@@ -28,10 +35,12 @@ public class Oder {
     @Column(name = "additional_notes", length = 200)
     private String additionalNotes;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_customer", referencedColumnName = "id_customer", nullable = false, updatable = false)
+    @JsonIgnore
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
+
+    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
     private List<OrderItem> items;
 }

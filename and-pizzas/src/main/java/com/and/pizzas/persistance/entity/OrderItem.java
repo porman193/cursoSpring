@@ -1,5 +1,6 @@
 package com.and.pizzas.persistance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,10 @@ public class OrderItem {
     @Column(name = "price", nullable = false, precision = 5, scale = 2)
     private BigDecimal price;
 
-    @MapsId("idOrder")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_order", nullable = false,referencedColumnName = "id_order",insertable = false,updatable = false)
-    private Oder order;
+    @JsonIgnore
+    private Order order;
 
     @OneToOne
     @JoinColumn(name = "id_pizza", nullable = false,referencedColumnName = "id_pizza",insertable = false,updatable = false)
