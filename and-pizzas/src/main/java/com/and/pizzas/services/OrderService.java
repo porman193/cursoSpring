@@ -1,6 +1,7 @@
 package com.and.pizzas.services;
 
 import com.and.pizzas.persistance.entity.Order;
+import com.and.pizzas.persistance.projection.OrderSummary;
 import com.and.pizzas.persistance.repository.OrderRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +63,14 @@ public class OrderService {
         List<OrderType> methods = List.of(OrderType.fromCode("D"),OrderType.fromCode("C"));
         List<String>methodsStr = methods.stream().map(OrderType::getCode).toList();
         return  this.orderRepository.findAllByMethodIn(methodsStr);
+    }
+
+    public List<Order> getCustomerOrders(String id){
+        return  this.orderRepository.getCustomerOrders(id);
+    }
+
+    public OrderSummary getSummary(Integer orderId){
+        this.orderRepository.
+        return  this.orderRepository.findSummary(orderId);
     }
 }

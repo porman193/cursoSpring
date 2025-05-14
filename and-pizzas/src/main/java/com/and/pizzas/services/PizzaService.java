@@ -1,9 +1,16 @@
 package com.and.pizzas.services;
 
 import com.and.pizzas.persistance.entity.Pizza;
+import com.and.pizzas.persistance.repository.PizzaPagSortRepository;
 import com.and.pizzas.persistance.repository.PizzaRepository;
+import com.and.pizzas.services.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,18 +18,28 @@ import java.util.List;
 public class PizzaService {
 
     private final PizzaRepository pizzaRepository;
+    private final PizzaPagSortRepository pizzaPagSortRepository;
 
     @Autowired
-    public PizzaService(PizzaRepository pizzaRepository) {
+    public PizzaService(PizzaRepository pizzaRepository, PizzaPagSortRepository pizzaPagSortRepository) {
         this.pizzaRepository = pizzaRepository;
+        this.pizzaPagSortRepository = pizzaPagSortRepository;
+
     }
 
-    public List<Pizza> getAll(){
-        return this.pizzaRepository.findAll();
+
+
+    public Page<Pizza> getAll(int page, int elements){
+        Pageable pageRequest = PageRequest.of(page,elements);
+        return this.pizzaPagSortRepository.findAll(pageRequest);
     }
 
-    public List<Pizza> getAvailable(){
-        return  this.pizzaRepository.findAllByAvailableTrueOrderByPrice();
+    public Page<Pizza> getAvailable(int page, int elements, String sortBy, String sortDirection) {
+
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortBy);
+        Pageable pageRequest = PageRequest.of(page,elements, sort);
+
+        return  this.pizzaPagSortRepository.findByAvailableTrue(pageRequest);
     }
 
     public Pizza getByName(String name){
@@ -55,5 +72,10 @@ public class PizzaService {
 
     public void delete(Integer id){
         this.pizzaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void  updatePrice(UpdatePizzaPriceDto dto){
+        this.pizzaRepository.updatePrice(dto);
     }
 }

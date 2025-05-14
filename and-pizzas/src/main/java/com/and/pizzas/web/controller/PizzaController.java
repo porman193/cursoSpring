@@ -2,7 +2,9 @@ package com.and.pizzas.web.controller;
 
 import com.and.pizzas.persistance.entity.Pizza;
 import com.and.pizzas.services.PizzaService;
+import com.and.pizzas.services.dto.UpdatePizzaPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +21,9 @@ public class PizzaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pizza>> getAll(){
-        return  ResponseEntity.ok(pizzaService.getAll());
+    public ResponseEntity<Page<Pizza>> getAll(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "8")  int elements){
+        return  ResponseEntity.ok(pizzaService.getAll(page,elements));
     }
 
     @GetMapping("/name/{name}")
@@ -44,8 +47,11 @@ public class PizzaController {
     }
 
     @GetMapping("/available")
-    public  ResponseEntity<List<Pizza>> getAvailable(){
-        return  ResponseEntity.ok(pizzaService.getAvailable());
+    public  ResponseEntity<Page<Pizza>> getAvailable(@RequestParam(defaultValue = "0") int page
+                                                    ,@RequestParam(defaultValue = "8") int elements,
+                                                     @RequestParam(defaultValue = "price") String sortBy,
+                                                     @RequestParam(defaultValue = "ASC") String sortDirection){
+        return  ResponseEntity.ok(pizzaService.getAvailable(page,elements,sortBy,sortDirection));
     }
 
     @GetMapping("/{id}")
@@ -65,6 +71,15 @@ public class PizzaController {
     public  ResponseEntity<Pizza> update(@RequestBody Pizza pizza){
         if(pizza.getIdPizza() != null && pizzaService.exist(pizza.getIdPizza())){
             return  ResponseEntity.ok(pizzaService.save(pizza));
+        }
+        return  ResponseEntity.badRequest().build();
+    }
+
+    @PutMapping("/price")
+    public  ResponseEntity<Void> update(@RequestBody UpdatePizzaPriceDto dto){
+        if(pizzaService.exist(dto.getPizzaId())){
+            pizzaService.updatePrice(dto);
+            return  ResponseEntity.ok().build();
         }
         return  ResponseEntity.badRequest().build();
     }

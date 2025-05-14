@@ -1,14 +1,13 @@
 package com.and.pizzas.web.controller;
 
 import com.and.pizzas.persistance.entity.Order;
+import com.and.pizzas.persistance.projection.OrderSummary;
 import com.and.pizzas.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,5 +50,15 @@ public class OrderController {
     @GetMapping("/outside")
     public ResponseEntity<List<Order>> getOutside(){
         return  ResponseEntity.ok(orderService.getOutsideOrders());
+    }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<List<Order>> getCustomerOrders (@PathVariable(name = "id") String id) {
+        return ResponseEntity.ok(orderService.getCustomerOrders(id));
+    }
+
+    @GetMapping("/summary/{orderId}")
+    public  ResponseEntity<OrderSummary> getSummary(@PathVariable(name="orderId") Integer orderId){
+        return ResponseEntity.ok(orderService.getSummary(orderId));
     }
 }
