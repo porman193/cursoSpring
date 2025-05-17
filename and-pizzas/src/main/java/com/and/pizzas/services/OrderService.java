@@ -70,7 +70,6 @@ public class OrderService {
     }
 
     public OrderSummary getSummary(Integer orderId){
-        this.orderRepository.
         return  this.orderRepository.findSummary(orderId);
     }
 }
