@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ public class PizzaService {
     }
 
 
-
+    @Secured("ROLE_ADMIN")
     public Page<Pizza> getAll(int page, int elements){
         Pageable pageRequest = PageRequest.of(page,elements);
         return this.pizzaPagSortRepository.findAll(pageRequest);
